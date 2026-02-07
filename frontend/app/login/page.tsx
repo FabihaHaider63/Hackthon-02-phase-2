@@ -26,36 +26,24 @@ export default function LoginPage() {
 
         try {
             const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
-            console.log('🔵 Attempting login to:', `${apiUrl}/api/auth/login`);
-
             const response = await fetch(`${apiUrl}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
 
-            console.log('🔵 Response status:', response.status);
-
             if (!response.ok) {
                 const data = await response.json();
-                console.log('🔴 Login failed:', data);
                 throw new Error(data.detail || 'Login failed');
             }
 
             const data = await response.json();
-            console.log('🟢 Login successful! Token received:', data.token ? 'YES' : 'NO');
-            console.log('🟢 User ID:', data.userId);
-
             localStorage.setItem('auth-token', data.token);
-            console.log('🟢 Token saved to localStorage');
 
             // Redirect using router.push for smoother SPA experience
-            console.log('🟢 Redirecting to /tasks...');
             router.push('/tasks');
-            console.log('🟢 router.push called');
 
         } catch (err: any) {
-            console.log('🔴 Error during login:', err.message);
             setError(err.message);
         } finally {
             setLoading(false);
