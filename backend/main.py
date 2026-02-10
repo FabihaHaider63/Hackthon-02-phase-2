@@ -16,10 +16,9 @@ from db import engine
 
 app = FastAPI(title="Todo Backend", version="1.0.0")
 
-# Add CORS middleware to allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific frontend URL
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -32,7 +31,15 @@ def on_startup():
 
 @app.get("/")
 def read_root():
-    return {"message": "Todo Backend API"}
+    return {"status": "online", "message": "Todo Backend API"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
+@app.post("/agent")
+def agent_endpoint():
+    return {"status": "success", "message": "Agent endpoint is reachable"}
 
 # Import and include the task routes
 # Import and include the task routes

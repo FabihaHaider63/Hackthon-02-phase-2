@@ -69,3 +69,5 @@ celerybeat.pid
 
 # Process identifier
 *.pid
+.vercel
+.env*.local

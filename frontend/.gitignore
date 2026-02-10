@@ -74,3 +74,4 @@ Thumbs.db
 next-auth.session-token*
 next-auth.csrf-token*
 next-auth.state*
+.vercel
