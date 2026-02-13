@@ -6,7 +6,7 @@ from uuid import UUID
 
 import crud, models, schemas
 from auth import get_current_user
-from db import get_session
+from serverless_db import get_session
 
 router = APIRouter()
 
@@ -102,7 +102,7 @@ async def update_task(
     return task
 
 
-@router.delete("/tasks/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/tasks/{task_id}")
 async def delete_task(
     task_id: int,
     current_user_id: str = Depends(get_current_user),
@@ -117,14 +117,14 @@ async def delete_task(
         task_id=task_id,
         user_id=current_user_id
     )
-    
+
     if not success:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Task not found"
         )
-    
-    return
+
+    return {"status": "success", "message": "Task deleted successfully", "deleted_id": task_id}
 
 
 @router.patch("/tasks/{task_id}/complete", response_model=schemas.TaskOut)

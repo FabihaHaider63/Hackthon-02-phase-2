@@ -6,7 +6,7 @@ import os
 import datetime
 from dotenv import load_dotenv
 
-from db import get_session
+from serverless_db import get_session
 from models import User
 from security import get_password_hash, verify_password
 
